@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
 
     // Select the users collection from the database
     const urls = await collection.find({}).toArray()
-
+    console.log(urls);
     // Respond with a JSON string of all users in the collection
     res.status(200).json({ urls })
 }
