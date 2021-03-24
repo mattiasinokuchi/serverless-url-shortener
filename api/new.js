@@ -1,6 +1,8 @@
 // Import Dependencies
 const url = require('url')
 const MongoClient = require('mongodb').MongoClient
+const dns = require('dns');
+const dnsPromises = dns.promises;
 
 // Create cached connection variable
 let cachedDb = null
@@ -34,14 +36,35 @@ async function connectToDatabase(uri) {
 module.exports = async (req, res) => {
     // Get a database connection, cached or otherwise,
     // using the connection string environment variable as the argument
-    const db = await connectToDatabase(process.env.DB_URI)
+    const db = await connectToDatabase(process.env.DB_URI);
 
     // Select the "users" collection from the database
     const collection = await db.collection('mongoosemodels')
 
-    // Select the users collection from the database
-    const urls = await collection.find({}).toArray()
-    //console.log(urls);
-    // Respond with a JSON string of all users in the collection
-    res.status(200).json({ urls })
+    try {
+        // ...check URL...
+        const url = new URL(req.body.url);
+        await dnsPromises.lookup(url.hostname);
+        // ...counts URLs in the database...
+        const count = await collection.estimatedDocumentCount({});
+        console.log(count);
+        // ...creates a new object...
+        const document = {
+            original_url: url.hostname,
+            short_url: count,
+            href: url.href
+        };
+        // ...inserts it to MongoDB...
+        const newURL = await collection.insertOne(document);
+        console.log(newURL.ops);
+        // ...responds...
+        res.status(200).json(newURL.ops);
+        // ...or logs an error
+    } catch (error) {
+        if (error.code === "ENOTFOUND" || "ERR_INVALID_URL") {
+            res.json({ error: "invalid URL" });
+        } else {
+            console.log(error);
+        }
+    }
 }
