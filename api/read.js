@@ -36,12 +36,12 @@ module.exports = async (req, res) => {
     // using the connection string environment variable as the argument
     const db = await connectToDatabase(process.env.DB_URI)
 
-    // Select the "users" collection from the database
+    // Select the collection from the database
     const collection = await db.collection('mongoosemodels')
 
-    // Select the users collection from the database
+    // Select the collection from the database
     const urls = await collection.find({}).toArray()
-    //console.log(urls);
-    // Respond with a JSON string of all users in the collection
-    res.status(200).json({ urls })
+
+    // Respond with a JSON string of all urls in the collection
+    res.status(200).json(urls);
 }
