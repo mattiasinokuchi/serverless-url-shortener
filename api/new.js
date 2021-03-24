@@ -45,20 +45,18 @@ module.exports = async (req, res) => {
         // ...check URL...
         const url = new URL(req.body.url);
         await dnsPromises.lookup(url.hostname);
-        // ...counts URLs in the database...
-        const count = await collection.estimatedDocumentCount({});
-        console.log(count);
+        // ...finds a free number in the database...
+        const number = await collection.estimatedDocumentCount({});
         // ...creates a new object...
         const document = {
             original_url: url.hostname,
-            short_url: count,
+            short_url: number,
             href: url.href
         };
-        // ...inserts it to MongoDB...
-        const newURL = await collection.insertOne(document);
-        console.log(newURL.ops);
+        // ...inserts it in MongoDB...
+        const insert = await collection.insertOne(document);
         // ...responds...
-        res.status(200).json(newURL.ops);
+        res.status(200).json(insert.ops);
         // ...or logs an error
     } catch (error) {
         if (error.code === "ENOTFOUND" || "ERR_INVALID_URL") {
