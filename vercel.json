@@ -1,7 +1,7 @@
 {
     "redirects": [
         {
-            "source": "/:id",
+            "source": "/id/:id",
             "destination": "/api/:id",
             "permanent": false
         }

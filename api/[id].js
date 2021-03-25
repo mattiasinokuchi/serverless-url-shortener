@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
     const db = await connectToDatabase(process.env.DB_URI)
 
     // Select the collection from the database
-    const collection = await db.collection('mongoosemodels')
+    const collection = await db.collection('urls');
 
     // ...extracts id of URL from the path segment...
     const {
@@ -46,7 +46,7 @@ module.exports = async (req, res) => {
 
     try {
         // ...finds URL in database...
-        const url = await collection.findOne({ short_url: id });
+        const url = await collection.findOne({ short_url: parseInt(id) });
         // ...and redirects accordingly
         res.redirect(url.href);
     } catch (error) {

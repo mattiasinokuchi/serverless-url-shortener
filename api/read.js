@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
     const db = await connectToDatabase(process.env.DB_URI)
 
     // Select the collection from the database
-    const collection = await db.collection('mongoosemodels')
+    const collection = await db.collection('urls')
 
     // Select the collection from the database
     const urls = await collection.find({}).toArray()
