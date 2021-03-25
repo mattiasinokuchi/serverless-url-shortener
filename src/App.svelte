@@ -5,7 +5,6 @@
   onMount(async () => {
     const res = await fetch("/api/read");
     urls = await res.json();
-    console.log(urls);
   });
 </script>
 
@@ -17,14 +16,15 @@
       id="url_input"
       type="text"
       name="url"
-      placeholder="https://www.freecodecamp.org"
+      placeholder="https://8-b.site"
     />
     <input type="submit" value="POST URL" />
   </form>
 
   {#if urls}
-    {#each urls as { original_url, short_url }}
-      <p>{original_url} = .vercel.app/{short_url}</p>
+    <h2>Previously shortened URLs</h2>
+    {#each urls.reverse() as { href, short_url }}
+      <p>{href} ===> serverless-url-shortener.vercel.app/id/{short_url}</p>
     {/each}
   {/if}
 </main>
