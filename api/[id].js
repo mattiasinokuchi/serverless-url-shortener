@@ -39,21 +39,17 @@ module.exports = async (req, res) => {
     // Select the collection from the database
     const collection = await db.collection('mongoosemodels')
 
+    // ...extracts id of URL from the path segment...
     const {
         query: { id },
     } = req;
 
-    console.log(id);
-    res.send("finished");
-
-    //const { urlId } = req.params;
-
-    //try {
-    // ...finds URL in database...
-    //const url = await collection.find({ short_url: urlId });
-    // ...and redirects accordingly
-    //res.redirect(url[0].href);
-    //} catch (error) {
-    //console.log(error);
-    //}
+    try {
+        // ...finds URL in database...
+        const url = await collection.findOne({ short_url: id });
+        // ...and redirects accordingly
+        res.redirect(url.href);
+    } catch (error) {
+        console.log(error);
+    }
 }
