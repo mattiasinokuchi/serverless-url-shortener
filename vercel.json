@@ -2,7 +2,7 @@
     "redirects": [
         {
             "source": "/:id",
-            "destination": "/api/id/:id",
+            "destination": "/api/:id",
             "permanent": false
         }
     ]
