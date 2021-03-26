@@ -1,12 +1,12 @@
 <script>
-  import { onMount } from "svelte";
+  import { fade } from "svelte/transition";
   let url;
-  let called = false;
+  let text;
   let new_url;
 
   async function submit() {
     try {
-      called = true;
+      text = "Please wait...";
       const response = await fetch("/api/create", {
         method: "POST",
         body: JSON.stringify({ url: url }),
@@ -15,7 +15,15 @@
         },
       });
       new_url = await response.json();
-      called = false;
+      text = `<a href="https://serverless-url-shortener.vercel.app/id/`
+        + new_url[0].short_url
+        + `">https://serverless-url-shortener.vercel.app/id/`
+        + new_url[0].short_url
+        + `</a> now redirects to <a href=`
+        + url
+        + `>`
+        + url
+        + `</a>`;
     } catch (err) {
       console.error(err);
     }
@@ -36,14 +44,7 @@
     <input type="submit" value="POST URL" />
   </form>
 
-  {#if called}
-    <p>Please wait...</p>
-  {/if}
-  {#if new_url}
-  <p>
-    <a href="https://serverless-url-shortener.vercel.app/id/{new_url[0].short_url}">https://serverless-url-shortener.vercel.app/id/{new_url[0].short_url}</a>
-    now redirects to 
-    <a href="{url}">{url}</a>
-  </p>
+  {#if text}
+    <p transition:fade>{@html text}</p>
   {/if}
 </main>
