@@ -34,6 +34,8 @@ async function connectToDatabase(uri) {
 // The main, exported, function of the endpoint,
 // dealing with the request and subsequent response
 module.exports = async (req, res) => {
+
+    console.log("Hello create!");
     // Get a database connection, cached or otherwise,
     // using the connection string environment variable as the argument
     const db = await connectToDatabase(process.env.DB_URI);
@@ -56,7 +58,7 @@ module.exports = async (req, res) => {
         // ...inserts it in MongoDB...
         const insert = await collection.insertOne(document);
         // ...responds...
-        res.status(200).json(insert.ops);
+        res.json(insert.ops);
         // ...or logs an error
     } catch (error) {
         if (error.code === "ENOTFOUND" || "ERR_INVALID_URL") {
