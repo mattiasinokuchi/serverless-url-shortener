@@ -1,11 +1,15 @@
 main {
-  font-family: 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica',
-    'Arial', sans-serif;
+  font-family: fantasy;
   text-align: center;
 }
 h1 {
   font-size: 45px;
+  color: green;
+  text-shadow: 1px 1px 2px black, 0 0 1em darkgreen, 0 0 0.1em darkgreen;
 }
 p {
   font-size: 16px;
+}
+body {
+  background-color: greenyellow;
 }

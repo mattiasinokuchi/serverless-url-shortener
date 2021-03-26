@@ -35,7 +35,6 @@
   <form on:submit|preventDefault={submit}>
     <label for="url_input">URL to be shortened</label>
     <input
-      id="url_input"
       type="text"
       bind:value={url}
       name="url"
