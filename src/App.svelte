@@ -1,10 +1,12 @@
 <script>
   import { onMount } from "svelte";
   let url;
+  let called = false;
   let new_url;
 
   async function submit() {
     try {
+      called = true;
       const response = await fetch("/api/create", {
         method: "POST",
         body: JSON.stringify({ url: url }),
@@ -13,6 +15,7 @@
         },
       });
       new_url = await response.json();
+      called = false;
     } catch (err) {
       console.error(err);
     }
@@ -33,6 +36,9 @@
     <input type="submit" value="POST URL" />
   </form>
 
+  {#if called}
+    <p>Please wait...</p>
+  {/if}
   {#if new_url}
   <p>
     <a href="https://serverless-url-shortener.vercel.app/id/{new_url[0].short_url}">https://serverless-url-shortener.vercel.app/id/{new_url[0].short_url}</a>
