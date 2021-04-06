@@ -15,9 +15,9 @@
         },
       });
       new_url = await response.json();
-      text = `<a href="https://serverless-url-shortener.vercel.app/id/`
+      text = `<a href="https://re-url.vercel.app/id/`
         + new_url[0].short_url
-        + `">https://serverless-url-shortener.vercel.app/id/`
+        + `">https://re-url.vercel.app/id/`
         + new_url[0].short_url
         + `</a> now redirects to <a href=`
         + url
