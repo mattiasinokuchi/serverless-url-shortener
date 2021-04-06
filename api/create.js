@@ -61,7 +61,7 @@ module.exports = async (req, res) => {
         // ...or logs an error
     } catch (error) {
         if (error.code === "ENOTFOUND" || "ERR_INVALID_URL") {
-            res.json({ error: "invalid URL" });
+            res.json({ error: "Invalid URL!" });
         } else {
             console.log(error);
         }

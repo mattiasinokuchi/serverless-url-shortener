@@ -15,7 +15,8 @@
         },
       });
       new_url = await response.json();
-      text = `<a href="https://re-url.vercel.app/id/`
+      if (!new_url[0]) text = new_url.error;
+      else text = `<a href="https://re-url.vercel.app/id/`
         + new_url[0].short_url
         + `">https://re-url.vercel.app/id/`
         + new_url[0].short_url
